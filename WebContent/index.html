@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>Login here</title>
+</head>
+<body>
+<!-- <form> -->
+	User Name :<input type="text" id="username" name="username" value="vikas">
+	<br>
+	Password :<input type="password" id="password" name="password" value="vikas">  
+	<br>
+	<button type="button" value="Login" onclick="onsubmitmyform()">Login</button>
+	<button type="button" value="Logout" onclick="logout()">Logout</button>
+<!-- </form> -->
+<span id="error"></span>
+<script type="text/javascript">
+console.log('Script is loaded');
+	function onsubmitmyform(){
+		var username=document.getElementById("username").value;
+		var password = document.getElementById("password").value;
+		var param = "username="+username+"&password="+password; 		
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status == 200) {
+		    	window.location.href="/SessionCheck.jsp";
+		    }
+		    else
+		    {
+		     	document.getElementById("error").innerHTML = this.responseText;
+		    }
+		};
+		xhttp.open("POST","/app/login",true);
+		xhttp.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+		//alert('Will make request to backened with username :'+username);
+		xhttp.send(param);
+		
+	}
+	function logout(){
+		var xhttp = new XMLHttpRequest();
+		xhttp.onreadystatechange = function() {
+		    if (this.readyState == 4 && this.status != 200) {
+		     	alert('Unable to log you out.');
+		    	document.getElementById("error").innerHTML = this.responseText;
+		    }
+		}
+		xhttp.open("POST","/app/logout",false);
+		xhttp.send();
+	}
+</script>
+</body>
+</html>
